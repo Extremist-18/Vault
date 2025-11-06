@@ -1,0 +1,27 @@
+Vault - Installation & Setup Guide
+----------------------------------
+
+1. Clone the Repository
+-----------------------
+git clone https://github.com/Extremist-18/Vault.git
+cd vault
+
+2. Install Dependencies
+-----------------------
+npm install
+
+3. Start Local Blockchain
+--------------------------
+npx hardhat node
+
+4. Deploy the Smart Contract
+----------------------------
+npx hardhat run scripts/deploy.cjs --network localhost
+
+5. Start the Application
+(for both frontend and backend Applications)
+------------------------
+npm start 
+
+
+You can now interact with the Vault decentralized expense management system locally.
