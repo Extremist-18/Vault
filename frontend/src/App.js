@@ -34,7 +34,7 @@ export default function App(){
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center">
-      {token && <Navbar username={username} />}
+      {token && <Navbar username={username} setExpense={setExpense} />}
 
       <main className="flex flex-col items-center p-6 w-full max-w-5xl">
         <Routes>
