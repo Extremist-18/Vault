@@ -38,7 +38,7 @@ export default function AddExpenseForm({setExpense}){
                 setLoading(false);
                 return;
             }
-            const res = await axios.post("http://localhost:5000/api/expenses/add", {  
+            const res = await axios.post("http://localhost:5050/api/expenses/add", {  
                 encryptedData: {
                         iv: encrypted.iv,
                         ciphertext: encrypted.ciphertext,

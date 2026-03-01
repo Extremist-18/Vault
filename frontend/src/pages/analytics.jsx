@@ -21,10 +21,6 @@ export default function Analytics(){
     },[]);
     const initWalletAndFetch = async ()=>{
         try{
-            // const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
-            // const signer = await provider.getSigner(0);
-            // const address = await signer.getAddress();
-           
             const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
             const wallet = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, provider);
 
@@ -37,10 +33,6 @@ export default function Analytics(){
 
     const decryptExpense = async (encryptedData, walletAddress)=>{
         try{
-            // const key = CryptoJS.SHA256(walletAddress).toString();
-            // const bytes = CryptoJS.AES.decrypt(encrypted,key);
-            // const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-            // return JSON.parse(decryptedText);
             return await decryptData(encryptedData, walletAddress);
         }catch(err){
             console.error("Decryption Error", err);
@@ -55,7 +47,7 @@ export default function Analytics(){
                 console.error("Token not found");
                 return;
             }
-            const res = await axios.get("http://localhost:5000/api/expenses/get", {
+            const res = await axios.get("http://localhost:5050/api/expenses/get", {
                 headers: {
                     Authorization: `Bearer ${token}`, // << include token here
                 },
@@ -67,29 +59,27 @@ export default function Analytics(){
                 exp.map(async (item) => {
                     let encryptedObj=null;
                     try {
-                    if (typeof item.encryptedData === "string") {
+                    if(typeof item.encryptedData === "string") {
                         encryptedObj = JSON.parse(item.encryptedData);
-                    } else if (item.encryptedData && item.encryptedData.iv 
-                        // (item.encryptedData.data || item.encryptedData.ciphertext)
-                    ) {
+                    }else if(item.encryptedData && item.encryptedData.iv){
                         // supports { iv, data } or { iv, ciphertext }
                         encryptedObj = {
                         iv: item.encryptedData.iv,
                         ciphertext:
                             item.encryptedData.data || item.encryptedData.ciphertext,
                         };
-                    } else if (item.iv && (item.data || item.ciphertext)) {
+                    }else if(item.iv && (item.data || item.ciphertext)) {
                         encryptedObj = {
                         iv: item.iv,
                         ciphertext: item.data || item.ciphertext,
                         };
-                    } else {
+                    }else {
                         console.warn("Invalid encrypted object:", item);
                         return null;
                     }
 
                     return await decryptExpense(encryptedObj, address);
-                    } catch (err) {
+                    }catch (err) {
                     console.error("Error decrypting item:", err);
                     return null;
                     }

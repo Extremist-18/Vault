@@ -5,11 +5,11 @@ import mongoose from "mongoose";
 import expenseRoutes from "./routes/expenseRoutes.js";
 import authRoutes from "./routes/auth.js";
 
-
 dotenv.config();
 const app = express();
 app.use(express.json())
 app.use(cors());
+const PORT = process.env.PORT;
 
 app.use("/api/auth", authRoutes);
 app.use((req, res, next) => {
@@ -26,6 +26,6 @@ app.get("/",(req,res) => {
     res.send("Vault backend running");
 })
 
-app.use("/api/expenses", expenseRoutes)
-app.listen(process.env.PORT, ()=>console.log(`Server is Live on ${process.env.PORT}`));
+app.use("/api/expenses", expenseRoutes);
 
+app.listen(PORT, () => console.log(`Server is Live on ${PORT}`));

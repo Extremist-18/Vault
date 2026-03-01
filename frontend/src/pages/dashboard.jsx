@@ -12,14 +12,11 @@ export default function Dashboard(){
             try{
                 const token =localStorage.getItem("token");
                 if(!token)  return;
-                const res = await fetch("http://localhost:5000/api/expenses/get",{
+                const res = await fetch("http://localhost:5050/api/expenses/get",{
                     headers:{Authorization:`Bearer ${token}`},
                 });
                 const data = await res.json();
 
-                // const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
-                // const signer = await provider.getSigner(0);
-                // const wallet = await signer.getAddress();
                 const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
                 const wallet = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, provider);
 
